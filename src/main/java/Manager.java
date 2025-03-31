@@ -5,12 +5,13 @@ public class Manager {
     private Set<Product> products;
     private Queue<Order> orders;
 
-    public void init() {
-        this.products.add(new Product("Keyboard 1", Product.Category.Peripheral));
-        this.products.add(new Product("Keyboard 2", Product.Category.Peripheral));
+    public Manager() {
+        this.clients = new HashMap<>();
+        this.products = new HashSet<>();
+        this.orders = new PriorityQueue<>(Order.PriorityComparator);
     }
 
-    public Set<Product> addProduct(String name, Product.Category category) {
+    public  void addProduct(String name, Product.Category category) {
         Product getProduct = this.getProduct(name, true);
         if (getProduct != null) throw new RuntimeException("Product exists");
 
@@ -18,11 +19,10 @@ public class Manager {
         this.products.add(newProduct);
 
         System.out.println("Product added: " + newProduct);
-        return this.products;
     }
 
     public Product getProduct(String name, boolean exactly) {
-        return this.products.stream().filter(prod -> exactly ? prod.getName().equals(name) : prod.getName().contains(name)).findFirst().orElseThrow(() -> new RuntimeException("Product not found"));
+        return this.products.stream().filter(prod -> exactly ? prod.getName().equals(name) : prod.getName().contains(name)).findFirst().orElse(null);
     }
 
     public Product getProduct(String name) {
