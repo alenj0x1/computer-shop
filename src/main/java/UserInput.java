@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.function.Function;
 
 public class UserInput {
     public Scanner keyboard;
@@ -40,5 +41,22 @@ public class UserInput {
             System.out.println("Only integers are allowed!!!");
             return 0;
         }
+    }
+
+    public <T> T CreateOption(String descriptor, Function<Scanner, T> reader, T defaultValue) {
+        try {
+            System.out.println(descriptor);
+            System.out.println("Your option: ");
+
+            return reader.apply(keyboard);
+        } catch (Exception e) {
+            this.keyboard.nextLine();
+            System.out.println("Unknown option, using default: " + defaultValue);
+            return defaultValue;
+        }
+    }
+
+    public <T> T CreateOption(String descriptor, Function<Scanner, T> reader) {
+        return CreateOption(descriptor, reader, null);
     }
 }
