@@ -41,6 +41,24 @@ public class Main {
                         }
 
                         manager.addProduct(name, Product.Category.values()[category]);
+                    // Remove product
+                    } else if (productsMenuOption == 2) {
+                        String name = userInput.CreateOption("Product name: ", Scanner::next);
+
+                        if (name == null) {
+                            System.out.println("Name is not allowed!!!");
+                            continue;
+                        }
+
+                        Product findProduct = manager.getProduct(name, true);
+
+                        if (findProduct == null) {
+                            System.out.println("Product not exists!!!");
+                            continue;
+                        }
+
+                        manager.removeProduct(name);
+                    // List all
                     } else if (productsMenuOption == 3) {
                         int productNumber = 1;
 
